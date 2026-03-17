@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: ds_ex_lab
+    database: "laboratorio-489120"
+    schema: ds_ex_lab
+    tables:
+      - name: raw_covid

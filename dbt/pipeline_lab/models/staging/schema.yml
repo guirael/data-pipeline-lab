@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_covid_data
+    description: "Standardized staging data for COVID-19."
+    columns:
+      - name: reference_date
+        description: "Unified date of reference."
+        data_tests:
+          - not_null
+      - name: country
+        description: "Name of the country."
+        data_tests:
+          - not_null
+      - name: cases
+        description: "Number of daily cases."
+      - name: deaths
+        description: "Number of daily deaths."

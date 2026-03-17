@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: dim_locations
+    description: "Dimension table for country and continent details."
+    columns:
+      - name: location_key
+        description: "Surrogate key for the location (Hashed country code)."
+        data_tests:
+          - unique
+          - not_null
+      - name: country
+        description: "Full country name."
+      - name: continent
+        description: "Continent where the country is located."
+
+  - name: dim_dates
+    description: "Dimension table for date attributes."
+    columns:
+      - name: date_key
+        description: "Primary key in YYYYMMDD format."
+        data_tests:
+          - unique
+          - not_null
+      - name: full_date
+        description: "The actual DATE object."
+
+  - name: fct_covid_daily
+    description: "Fact table containing COVID-19 daily measures."
+    columns:
+      - name: date_key
+        description: "Foreign key to dim_dates."
+      - name: location_key
+        description: "Foreign key to dim_locations."
+      - name: cases
+        description: "Daily case count."
+
+  - name: agg_country_evolution
+    description: "Denormalized view for country-level analysis over time."
+  - name: agg_continent_totals
+    description: "Aggregated totals per continent."
