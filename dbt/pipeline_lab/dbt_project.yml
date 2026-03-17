@@ -31,6 +31,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   pipeline_lab:
-    # Config indicated by + and applies to all files under models/example/
-    example:
+    staging:
+      +schema: raw
       +materialized: view
+    intermediate:
+      +schema: trusted
+      +materialized: table
+    marts:
+      +schema: delivery
+      +materialized: table
+
