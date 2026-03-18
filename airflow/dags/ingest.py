@@ -1,8 +1,11 @@
 from airflow import DAG
 from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.providers.google.cloud.hooks.gcs import GCSHook
-from airflow.operators.python import PythonOperator
+from airflow.providers.standard.operators.python import PythonOperator
+from airflow.providers.standard.operators.bash import BashOperator
 from datetime import datetime
+
+DBT_PROJECT_DIR = '/opt/airflow/dbt/pipeline_lab'
 
 def _upload_local_file_to_gcs():
     bucket_name = 'lab_xert'
@@ -52,4 +55,9 @@ with DAG(
         ]
     )
 
-    task_upload >> task_load_raw
+    task_dbt_run = BashOperator(
+        task_id='dbt_run',
+        bash_command=f'cd {DBT_PROJECT_DIR} && dbt run'
+    )
+
+    task_upload >> task_load_raw >> task_dbt_run
